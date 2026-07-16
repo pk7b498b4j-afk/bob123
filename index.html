@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secure Gift Card Portal</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f3f5f8;
+      color: #202124;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .card {
+      width: min(92%, 480px);
+      padding: 40px 32px;
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+      text-align: center;
+    }
+
+    .lock {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 24px;
+    }
+
+    .description {
+      margin: 0 auto 28px;
+      color: #5f6368;
+      line-height: 1.5;
+    }
+
+    .spinner {
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 24px;
+      border: 6px solid #e4e7eb;
+      border-top-color: #1a73e8;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 12px;
+      overflow: hidden;
+      background: #e8eaed;
+      border-radius: 20px;
+    }
+
+    .progress-bar {
+      width: 7%;
+      height: 100%;
+      background: #1a73e8;
+      border-radius: inherit;
+      transition: width 0.7s ease;
+    }
+
+    #percentage {
+      margin: 14px 0 8px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    #status {
+      min-height: 24px;
+      margin: 0;
+      color: #5f6368;
+      font-size: 14px;
+    }
+
+    .notice {
+      margin-top: 30px;
+      color: #9aa0a6;
+      font-size: 11px;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="card">
+    <div class="lock">🔒</div>
+
+    <h1>Secure Gift Card Portal</h1>
+
+    <p class="description">
+      Your gift card information is being decrypted and prepared for viewing.
+      Please do not close this window.
+    </p>
+
+    <div class="spinner"></div>
+
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <p id="percentage">7%</p>
+    <p id="status">Establishing secure connection...</p>
+
+    <p class="notice">
+      Processing time may vary depending on network security checks.
+    </p>
+  </main>
+
+  <script>
+    const progressBar = document.getElementById("progressBar");
+    const percentage = document.getElementById("percentage");
+    const status = document.getElementById("status");
+
+    const messages = [
+      "Establishing secure connection...",
+      "Verifying card provider...",
+      "Decrypting protected card numbers...",
+      "Checking available balances...",
+      "Validating security certificates...",
+      "Synchronizing redemption codes...",
+      "Completing final fraud-prevention check...",
+      "Almost finished..."
+    ];
+
+    let progress = 7;
+    let messageIndex = 0;
+
+    setInterval(() => {
+      // Slowly rise toward 99%, but never finish.
+      if (progress < 91) {
+        progress += Math.floor(Math.random() * 4) + 1;
+      } else if (progress < 98 && Math.random() > 0.55) {
+        progress += 1;
+      }
+
+      if (progress > 98) {
+        progress = 98;
+      }
+
+      progressBar.style.width = progress + "%";
+      percentage.textContent = progress + "%";
+
+      messageIndex = (messageIndex + 1) % messages.length;
+      status.textContent = messages[messageIndex];
+    }, 2400);
+
+    // Once it reaches 98%, alternate between 97% and 98%.
+    setInterval(() => {
+      if (progress >= 97) {
+        progress = progress === 98 ? 97 : 98;
+        progressBar.style.width = progress + "%";
+        percentage.textContent = progress + "%";
+        status.textContent = "Completing final verification...";
+      }
+    }, 6500);
+  </script>
+</body>
+</html>
